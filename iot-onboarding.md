@@ -50,10 +50,10 @@ Tested cases for API work defined in SOBI ticket
 h1. Open Questions
 
 1. Where does the button to start this mode go since we don’t have Quick Actions?
-2. -How do we GET a device's current profile state and remaining time?-
-  * Added documentation for {{GET /device/:macAddress}} and {{GET /devices}}
-3. -How do we know which IoT modal to go to?-
-  * If the mode is not enabled for this location, go to the first screen
-  * If it is enabled, go to the `we are waiting...` screen
-4. -How do we end IoT onboarding after we’ve dismissed the modal?-
+2. ~How do we GET a device's current profile state and remaining time?~
+  * Added documentation for `GET /device/:macAddress` and `GET /devices`
+3. ~How do we know which IoT modal to go to?~
+  * If the mode is not enabled for this device, go to the first screen (Figma 1)
+  * If it is enabled, go to the `we are waiting...` screen (Figma 2)
+4. ~How do we end IoT onboarding after we’ve dismissed the modal?~
   * Figma updated with updated design elements
