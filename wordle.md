@@ -1,3 +1,26 @@
+## Post hoc commentary
+
+This approach was an interesting first draft of how to optimize guesses for wordle.
+
+It fails in optimizing second guesses where `{o|r|a|t|e}` are present _and_ it does not optimize for positionality in following guesses.
+
+The second iteration of this method involved some complex `sql-inside-google-sheets` formulas and passing a list of valid words filtered from the previous guess. I had to optimize the formulas and methods to avoid the horrific performance issues inside of google sheets as a SQL engine.
+
+Here's a sample query where I'm using concatentation to form queries and account for `right letter, wrong place` vs. `right letter, right place` vs. `wrong letter` responses.
+
+```
+=if(isblank(Worksheet!C13),,
+query('Worksheet lists'!$E2:$E,"
+select E where "
+& if(Worksheet!C13="not used","not ","")&"E contains '"&Worksheet!C12&"' and "& if(Worksheet!C13="correct","","not ")&"E like '"&Worksheet!C12&"____' and "
+& if(Worksheet!D13="not used","not ","")&"E contains '"&Worksheet!D12&"' and "& if(Worksheet!D13="correct","","not ")&"E like '_"&Worksheet!D12&"___' and "
+& if(Worksheet!E13="not used","not ","")&"E contains '"&Worksheet!E12&"' and "& if(Worksheet!E13="correct","","not ")&"E like '__"&Worksheet!E12&"__' and "
+& if(Worksheet!F13="not used","not ","")&"E contains '"&Worksheet!F12&"' and "& if(Worksheet!F13="correct","","not ")&"E like '___"&Worksheet!F12&"_' and "
+& if(Worksheet!G13="not used","not ","")&"E contains '"&Worksheet!G12&"' and "& if(Worksheet!G13="correct","","not ")&"E like '____"&Worksheet!G12&"' ",0))
+```
+
+## First Approach
+
 1. Get list of [all words](https://gist.github.com/cfreshman/a03ef2cba789d8cf00c08f767e0fad7b). N = 2315
 2. Calculate the frequency of each letter by position
 3. Select the top 5 letters for each position
